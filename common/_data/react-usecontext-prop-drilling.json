@@ -1,0 +1,123 @@
+{
+  "slug": "react-usecontext-prop-drilling",
+  "title": "Avoiding 'Prop Drilling' with React useContext",
+  "author": "Maulana",
+  "image": "/images/articles/use-context.jpg",
+  "date": "2025-06-20",
+  "summary": "Learn how to manage global state and avoid 'prop drilling' by using the useContext hook to share data between components efficiently.",
+  "tags": [
+    "react",
+    "usecontext",
+    "react hooks",
+    "state management",
+    "tutorial"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "data": {
+        "level": 2,
+        "text": "The Problem: What is 'Prop Drilling'?"
+      }
+    },
+    {
+      "type": "paragraph",
+      "data": {
+        "text": "'Prop Drilling' is a condition where you have to pass 'props' from a parent component down to a child component that is deep in the hierarchy, even if the intermediate components don't need those props. This makes the code hard to read and maintain."
+      }
+    },
+    {
+      "type": "code",
+      "data": {
+        "language": "jsx",
+        "code": "// Imagine we have user data in App\nfunction App() {\n  const user = { name: 'John' };\n  // user must be 'passed' through Layout to reach Header\n  return <Layout user={user} />;\n}\n\n// Layout doesn't need 'user', but has to pass it on\nfunction Layout({ user }) {\n  return <Header user={user} />;\n}\n\n// Header is the component that actually needs the 'user' data\nfunction Header({ user }) {\n  return <div>Welcome, {user.name}</div>;\n}"
+      }
+    },
+    {
+      "type": "heading",
+      "data": {
+        "level": 2,
+        "text": "The Solution: The `useContext` Hook"
+      }
+    },
+    {
+      "type": "paragraph",
+      "data": {
+        "text": "`useContext` allows us to create a global data 'container' that can be accessed directly by any component within it, without needing to pass props manually. The process consists of three steps: Create, Provide, and Consume."
+      }
+    },
+    {
+      "type": "heading",
+      "data": {
+        "level": 3,
+        "text": "Step 1: Create the Context"
+      }
+    },
+    {
+      "type": "paragraph",
+      "data": {
+        "text": "First, create a new file to hold our context. This is like creating a data 'channel'."
+      }
+    },
+    {
+      "type": "code",
+      "data": {
+        "language": "javascript",
+        "code": "// contexts/UserContext.js\nimport { createContext } from 'react';\n\nexport const UserContext = createContext(null);"
+      }
+    },
+    {
+      "type": "heading",
+      "data": {
+        "level": 3,
+        "text": "Step 2: Provide the Context"
+      }
+    },
+    {
+      "type": "paragraph",
+      "data": {
+        "text": "In the top-level component (e.g., `App.js`), wrap the child components with the `Provider` from the created context. Send the data you want to share through the `value` prop."
+      }
+    },
+    {
+      "type": "code",
+      "data": {
+        "language": "jsx",
+        "code": "// App.js\nimport { UserContext } from './contexts/UserContext';\n\nfunction App() {\n  const user = { name: 'John' };\n\n  return (\n    <UserContext.Provider value={user}>\n      <Layout />\n    </UserContext.Provider>\n  );\n}"
+      }
+    },
+    {
+      "type": "heading",
+      "data": {
+        "level": 3,
+        "text": "Step 3: Consume the Context"
+      }
+    },
+    {
+      "type": "paragraph",
+      "data": {
+        "text": "Now, any component inside the `Provider` (like `Header`) can directly access the `user` data using the `useContext` hook."
+      }
+    },
+    {
+      "type": "code",
+      "data": {
+        "language": "jsx",
+        "code": "// Header.js\nimport { useContext } from 'react';\nimport { UserContext } from './contexts/UserContext';\n\nfunction Header() {\n  // Get the data directly from the context, no props needed!\n  const user = useContext(UserContext);\n\n  return <div>Welcome, {user.name}</div>;\n}\n\n// The Layout component is now very clean\nfunction Layout() {\n  return <Header />;\n}"
+      }
+    },
+    {
+      "type": "heading",
+      "data": {
+        "level": 2,
+        "text": "Conclusion"
+      }
+    },
+    {
+      "type": "paragraph",
+      "data": {
+        "text": "`useContext` is a powerful tool for simplifying data sharing in a React application. It makes components cleaner, more independent, and easier to refactor because you are no longer bound by long prop chains."
+      }
+    }
+  ]
+}

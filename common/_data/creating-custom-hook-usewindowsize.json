@@ -1,0 +1,116 @@
+{
+  "slug": "creating-custom-hook-usewindowsize",
+  "title": "React Tutorial: How to Create a useWindowSize Custom Hook from Scratch",
+  "author": "Maulana",
+  "image": "/images/articles/custom-scratch-hook.jpg",
+  "date": "2025-07-10",
+  "summary": "A step-by-step guide to solving code duplication in React by extracting logic into a clean and reusable useWindowSize custom hook.",
+  "tags": ["react", "custom hook", "tutorial", "javascript", "frontend"],
+  "content": [
+    {
+      "type": "heading",
+      "data": {
+        "level": 2,
+        "text": "What is a Custom Hook?"
+      }
+    },
+    {
+      "type": "paragraph",
+      "data": {
+        "text": "In short, a Custom Hook is a JavaScript function whose name starts with 'use'. Its purpose is to 'wrap' stateful logic (like useState and useEffect) so it can be reused across multiple components without rewriting the same code."
+      }
+    },
+    {
+      "type": "heading",
+      "data": {
+        "level": 2,
+        "text": "Case Study: The Problem of Repeated Code"
+      }
+    },
+    {
+      "type": "paragraph",
+      "data": {
+        "text": "Imagine we have two components, a `Navbar` and a `Sidebar`, that both need to know the current browser window's width and height. Without a custom hook, the code would look like this:"
+      }
+    },
+    {
+      "type": "code",
+      "data": {
+        "language": "jsx",
+        "code": "import { useState, useEffect } from 'react';\n\n// 1. The same logic inside Navbar\nfunction Navbar() {\n  const [size, setSize] = useState({ width: 0, height: 0 });\n\n  useEffect(() => {\n    const handleResize = () => setSize({ width: window.innerWidth, height: window.innerHeight });\n    window.addEventListener('resize', handleResize);\n    handleResize();\n    return () => window.removeEventListener('resize', handleResize);\n  }, []);\n\n  return <div>Window Width: {size.width}px</div>;\n}\n\n// 2. The EXACT SAME logic is repeated in Sidebar\nfunction Sidebar() {\n  const [size, setSize] = useState({ width: 0, height: 0 });\n\n  useEffect(() => {\n    const handleResize = () => setSize({ width: window.innerWidth, height: window.innerHeight });\n    window.addEventListener('resize', handleResize);\n    handleResize();\n    return () => window.removeEventListener('resize', handleResize);\n  }, []);\n\n  return <div>Window Height: {size.height}px</div>;\n}"
+      }
+    },
+    {
+      "type": "quote",
+      "data": {
+        "text": "This is an example of code duplication. It's inefficient and hard to maintain. If there's a bug, we have to fix it in two different places."
+      }
+    },
+    {
+      "type": "heading",
+      "data": {
+        "level": 2,
+        "text": "The Solution: Creating the `useWindowSize` Custom Hook"
+      }
+    },
+    {
+      "type": "paragraph",
+      "data": {
+        "text": "We will move all the repeated logic into a single function. Create a new file named `useWindowSize.js` (usually inside a `hooks` folder)."
+      }
+    },
+    {
+      "type": "code",
+      "data": {
+        "language": "javascript",
+        "code": "// hooks/useWindowSize.js\nimport { useState, useEffect } from 'react';\n\n// The function name must start with 'use'\nexport function useWindowSize() {\n  // 1. Move the State into the hook\n  const [windowSize, setWindowSize] = useState({\n    width: undefined,\n    height: undefined,\n  });\n\n  // 2. Move the Effect into the hook\n  useEffect(() => {\n    function handleResize() {\n      setWindowSize({\n        width: window.innerWidth,\n        height: window.innerHeight,\n      });\n    }\n    \n    window.addEventListener(\"resize\", handleResize);\n    handleResize(); // Call once on mount\n    \n    // Cleanup listener on component unmount\n    return () => window.removeEventListener(\"resize\", handleResize);\n  }, []);\n\n  // 3. Return the value needed by the components\n  return windowSize;\n}"
+      }
+    },
+    {
+      "type": "heading",
+      "data": {
+        "level": 2,
+        "text": "Implementation: Components Become Simple & Clean"
+      }
+    },
+    {
+      "type": "paragraph",
+      "data": {
+        "text": "Now, our `Navbar` and `Sidebar` components become much cleaner. We just need to call the hook we created."
+      }
+    },
+    {
+      "type": "code",
+      "data": {
+        "language": "jsx",
+        "code": "import { useWindowSize } from './hooks/useWindowSize';\n\nfunction Navbar() {\n  // Just call this one line!\n  const { width } = useWindowSize(); \n\n  return <div>Window Width: {width}px</div>;\n}\n\nfunction Sidebar() {\n  // Reuse it easily in other components\n  const { height } = useWindowSize();\n\n  return <div>Window Height: {height}px</div>;\n}"
+      }
+    },
+    {
+      "type": "heading",
+      "data": {
+        "level": 3,
+        "text": "The Advantages Gained"
+      }
+    },
+    {
+      "type": "paragraph",
+      "data": {
+        "text": "1. Reusable: The logic can be used in any component.\n2. **Clean Code**: Components become more focused on the UI.\n3. **Maintainable**: If there's a bug, we only need to fix it in one place: the `useWindowSize.js` file."
+      }
+    },
+    {
+      "type": "heading",
+      "data": {
+        "level": 2,
+        "text": "Conclusion"
+      }
+    },
+    {
+      "type": "paragraph",
+      "data": {
+        "text": "Custom Hooks are a fundamental tool in React for writing efficient code. By understanding how they work, you can build applications that are more modular, clean, and easy to manage."
+      }
+    }
+  ]
+}

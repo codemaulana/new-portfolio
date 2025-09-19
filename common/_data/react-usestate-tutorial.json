@@ -1,0 +1,103 @@
+{
+  "slug": "react-usestate-tutorial",
+  "title": "React Fundamentals: Managing State with the useState Hook",
+  "author": "Maulana",
+  "image": "/images/articles/manage-hook.jpg",
+  "date": "2025-06-28",
+  "summary": "Learn how to use the useState hook, one of the most fundamental hooks in React, to add and manage local state within functional components.",
+  "tags": ["react", "usestate", "react hooks", "tutorial", "javascript"],
+  "content": [
+    {
+      "type": "heading",
+      "data": {
+        "level": 2,
+        "text": "What is State in React?"
+      }
+    },
+    {
+      "type": "paragraph",
+      "data": {
+        "text": "Imagine 'state' as a component's memory. It's data that can change over time based on user interaction or other events. When the state changes, React automatically re-renders the component to display the new data."
+      }
+    },
+    {
+      "type": "heading",
+      "data": {
+        "level": 2,
+        "text": "Introducing the `useState` Hook"
+      }
+    },
+    {
+      "type": "paragraph",
+      "data": {
+        "text": "`useState` is a hook that allows you to add state to functional components. This hook returns an array containing two elements: the current state value and a function to update that state value."
+      }
+    },
+    {
+      "type": "code",
+      "data": {
+        "language": "jsx",
+        "code": "import { useState } from 'react';\n\nfunction ExampleComponent() {\n  // Declare state with array destructuring\n  const [stateValue, setStateValue] = useState(initialValue);\n\n  // stateValue: The variable that holds the current state value.\n  // setStateValue: The function we use to change stateValue.\n  // initialValue: The value on the first render.\n\n  return <div>The current value is: {stateValue}</div>;\n}"
+      }
+    },
+    {
+      "type": "heading",
+      "data": {
+        "level": 2,
+        "text": "Practical Example: Creating a Simple Counter"
+      }
+    },
+    {
+      "type": "paragraph",
+      "data": {
+        "text": "The best way to understand `useState` is by building an example. Let's create a counter component whose value increases when a button is clicked."
+      }
+    },
+    {
+      "type": "code",
+      "data": {
+        "language": "jsx",
+        "code": "import { useState } from 'react';\n\nexport default function Counter() {\n  // 1. Initialize the 'count' state with an initial value of 0\n  const [count, setCount] = useState(0);\n\n  // 2. Create a function to handle the button click\n  function handleClick() {\n    // Use the 'setCount' function to update the 'count' value\n    setCount(count + 1);\n  }\n\n  // 3. Render the button and display the current 'count' value\n  return (\n    <div>\n      <p>You clicked the button {count} times</p>\n      <button onClick={handleClick}>\n        Click me\n      </button>\n    </div>\n  );\n}"
+      }
+    },
+    {
+      "type": "quote",
+      "data": {
+        "text": "Each time the button is clicked, the `handleClick` function calls `setCount(count + 1)`. React then re-renders the `Counter` component with the new `count` value."
+      }
+    },
+    {
+      "type": "heading",
+      "data": {
+        "level": 2,
+        "text": "Tip: Managing State as an Object"
+      }
+    },
+    {
+      "type": "paragraph",
+      "data": {
+        "text": "When your state is an object, it's important not to modify it directly. Always create a new object by copying the old properties using the spread operator (`...`) and overwriting the value you want to change."
+      }
+    },
+    {
+      "type": "code",
+      "data": {
+        "language": "jsx",
+        "code": "function UserProfile() {\n  const [user, setUser] = useState({ name: 'John', age: 25 });\n\n  function updateAge() {\n    // CORRECT: Create a new object by copying the old properties\n    setUser({ ...user, age: user.age + 1 });\n\n    // WRONG: Never mutate state directly\n    // user.age = user.age + 1; \n  }\n\n  return (\n    <div>\n      <p>Name: {user.name}, Age: {user.age}</p>\n      <button onClick={updateAge}>Increase Age</button>\n    </div>\n  );\n}"
+      }
+    },
+    {
+      "type": "heading",
+      "data": {
+        "level": 2,
+        "text": "Conclusion"
+      }
+    },
+    {
+      "type": "paragraph",
+      "data": {
+        "text": "`useState` is an essential hook for managing dynamic data in your components. By understanding how to declare state, update it, and handle different data types, you've mastered one of the most fundamental concepts in modern React development."
+      }
+    }
+  ]
+}

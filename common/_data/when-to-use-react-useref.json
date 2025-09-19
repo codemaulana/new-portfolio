@@ -1,0 +1,83 @@
+{
+  "slug": "when-to-use-react-useref",
+  "title": "When and Why to Use useRef in React",
+  "author": "Maulana",
+  "image": "/images/articles/useref.jpg",
+  "date": "2025-07-05",
+  "summary": "Understand the two main functions of the useRef hook in React: to directly access DOM elements and to store values that don't trigger a re-render.",
+  "tags": ["react", "useref", "react hooks", "dom", "tutorial"],
+  "content": [
+    {
+      "type": "heading",
+      "data": {
+        "level": 2,
+        "text": "What is `useRef`?"
+      }
+    },
+    {
+      "type": "paragraph",
+      "data": {
+        "text": "`useRef` is a React hook that gives you a 'box' that can hold a mutable value. Unlike `useState`, changing a value inside `useRef` **will not** cause the component to re-render. This hook has two primary use cases."
+      }
+    },
+    {
+      "type": "heading",
+      "data": {
+        "level": 2,
+        "text": "Use Case 1: Accessing DOM Elements"
+      }
+    },
+    {
+      "type": "paragraph",
+      "data": {
+        "text": "This is its most common use. You can 'attach' a ref to an HTML element to interact with it directly, for example, to focus an input, play a video, or measure an element's dimensions."
+      }
+    },
+    {
+      "type": "code",
+      "data": {
+        "language": "jsx",
+        "code": "import { useRef } from 'react';\n\nexport default function FormInput() {\n  // 1. Create the ref\n  const inputRef = useRef(null);\n\n  function handleFocus() {\n    // 3. Access the DOM element via .current and call its method\n    inputRef.current.focus();\n  }\n\n  return (\n    <>\n      {/* 2. Attach the ref to the input element */}\n      <input ref={inputRef} type=\"text\" />\n      <button onClick={handleFocus}>\n        Focus the Input\n      </button>\n    </>\n  );\n}"
+      }
+    },
+    {
+      "type": "heading",
+      "data": {
+        "level": 2,
+        "text": "Use Case 2: Storing Values Without Triggering Re-renders"
+      }
+    },
+    {
+      "type": "paragraph",
+      "data": {
+        "text": "Sometimes you need to store a value between renders (like a timer or counter ID), but you don't want the component to re-render every time that value changes. `useRef` is perfect for this."
+      }
+    },
+    {
+      "type": "code",
+      "data": {
+        "language": "jsx",
+        "code": "import { useState, useRef, useEffect } from 'react';\n\nexport default function Timer() {\n  const [seconds, setSeconds] = useState(0);\n  // Use a ref to store the interval ID\n  const intervalRef = useRef(null);\n\n  useEffect(() => {\n    // Store the interval ID in the ref\n    intervalRef.current = setInterval(() => {\n      setSeconds(prevSeconds => prevSeconds + 1);\n    }, 1000);\n\n    // Cleanup on component unmount\n    return () => clearInterval(intervalRef.current);\n  }, []);\n\n  return <div>Timer: {seconds} seconds</div>;\n}"
+      }
+    },
+    {
+      "type": "quote",
+      "data": {
+        "text": "In the example above, `intervalRef.current` stores the timer ID. Its value persists between renders, but changing it doesn't cause the `Timer` component to re-render."
+      }
+    },
+    {
+      "type": "heading",
+      "data": {
+        "level": 2,
+        "text": "Conclusion: `useRef` vs `useState`"
+      }
+    },
+    {
+      "type": "paragraph",
+      "data": {
+        "text": "Use `useState` when data changes should be **displayed on the screen** (triggering a re-render). Use `useRef` when you need to **access DOM elements** or store data whose changes **should not** trigger a re-render."
+      }
+    }
+  ]
+}

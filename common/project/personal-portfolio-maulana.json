@@ -1,0 +1,101 @@
+{
+  "slug": "personal-portfolio-maulana",
+  "featured": true,
+  "title": "Personal Portfolio Website",
+  "summary": "A passionate Frontend Developer specializing in turning creative ideas into seamless and responsive web interfaces. Skilled in HTML, CSS, JavaScript, and React.js.",
+  "author": "Maulana",
+  "date": "2025-07-10",
+  "techStack": [
+    "Next.js",
+    "React",
+    "TypeScript",
+    "Tailwind CSS",
+    "Framer Motion",
+    "Three.js"
+  ],
+  "sourceCodeUrl": "https://github.com/your-username/your-portfolio-repo",
+  "mainImageUrl": "https://placehold.co/1200x630/1a1a2e/c0b7e8?text=Maulana's+Portfolio",
+  "content": [
+    {
+      "type": "heading",
+      "data": {
+        "level": 2,
+        "text": "Introduction"
+      }
+    },
+    {
+      "type": "paragraph",
+      "data": {
+        "text": "This project is my personal portfolio, built to showcase my skills, experience, and projects in a visually engaging way. It features a modern, dark interface with particle animations to create a dynamic and memorable user experience."
+      }
+    },
+    {
+      "type": "heading",
+      "data": {
+        "level": 2,
+        "text": "Key Features"
+      }
+    },
+    {
+      "type": "paragraph",
+      "data": {
+        "text": "1. **Interactive Animations**: Built with Framer Motion for smooth page transitions and micro-interactions.\n2. **Dynamic Content**: Articles and project data are loaded from local JSON files, acting as a mini CMS.\n3. **Responsive Design**: Fully responsive layout that works beautifully on desktops, tablets, and mobile devices.\n4. **3D Background**: Utilizes Three.js for an immersive particle background effect."
+      }
+    },
+    {
+      "type": "heading",
+      "data": {
+        "level": 2,
+        "text": "How to Start this project"
+      }
+    },
+    {
+      "type": "heading",
+      "data": {
+        "level": 3,
+        "text": "1. Clone using git"
+      }
+    },
+    {
+      "type": "code",
+      "data": {
+        "language": "bash",
+        "code": "git clone https://github.com/your-username/your-portfolio-repo.git"
+      }
+    },
+    {
+      "type": "heading",
+      "data": {
+        "level": 3,
+        "text": "2. Install dependencies"
+      }
+    },
+    {
+      "type": "code",
+      "data": {
+        "language": "bash",
+        "code": "npm install\n# or\nyarn"
+      }
+    },
+    {
+      "type": "heading",
+      "data": {
+        "level": 3,
+        "text": "3. Run development server"
+      }
+    },
+    {
+      "type": "code",
+      "data": {
+        "language": "bash",
+        "code": "npm run dev\n# or\nyarn dev"
+      }
+    },
+    {
+      "type": "paragraph",
+      "data": {
+        "text": "Open http://localhost:3000 with your browser to see the result."
+      }
+    }
+  ]
+}
