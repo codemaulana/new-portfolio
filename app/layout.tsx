@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   description: METADATA.description,
   keywords: METADATA.keyword,
   creator: METADATA.creator,
-  metadataBase: new URL(`${process.env.DOMAIN}`),
+  metadataBase: new URL("https://codemaulana.vercel.app"),
   authors: {
     name: METADATA.creator,
     url: METADATA.openGraph.url,

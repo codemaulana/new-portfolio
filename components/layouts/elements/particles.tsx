@@ -114,6 +114,24 @@ const Particles: React.FC<ParticlesProps> = ({
     const container = containerRef.current;
     if (!container) return;
 
+    // Check for WebGL support before creating renderer
+    let webglSupported = false;
+    try {
+      const testCanvas = document.createElement("canvas");
+      webglSupported = !!(
+        window.WebGLRenderingContext &&
+        (testCanvas.getContext("webgl") ||
+          testCanvas.getContext("experimental-webgl"))
+      );
+    } catch (e) {
+      webglSupported = false;
+    }
+    if (!webglSupported) {
+      container.innerHTML =
+        '<div style="color:white;text-align:center;padding:2em;">WebGL is not supported or enabled on your system.</div>';
+      return;
+    }
+
     const renderer = new Renderer({ depth: false, alpha: true });
     const gl = renderer.gl;
     container.appendChild(gl.canvas);

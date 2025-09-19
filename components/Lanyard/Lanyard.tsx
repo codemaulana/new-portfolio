@@ -20,7 +20,6 @@ import {
 import { MeshLineGeometry, MeshLineMaterial } from "meshline";
 import * as THREE from "three";
 
-// replace with your own imports, see the usage snippet for details
 const cardGLB = "/images/lanyard/card.glb";
 const lanyard = "/images/lanyard/lanyard.png";
 
@@ -33,21 +32,46 @@ interface LanyardProps {
   transparent?: boolean;
 }
 
+function isWebGLAvailable() {
+  try {
+    const canvas = document.createElement("canvas");
+    return !!(
+      window.WebGLRenderingContext &&
+      (canvas.getContext("webgl") || canvas.getContext("experimental-webgl"))
+    );
+  } catch (e) {
+    return false;
+  }
+}
+
 export default function Lanyard({
   position = [0, 0, 30],
   gravity = [0, -40, 0],
   fov = 20,
   transparent = true,
 }: LanyardProps) {
+  const [webgl, setWebgl] = useState(true);
+
+  useEffect(() => {
+    setWebgl(isWebGLAvailable());
+  }, []);
+
+  if (!webgl) {
+    return (
+      <div className="relative w-full h-screen flex justify-center items-center">
+        <p>WebGL is not supported or enabled on your system.</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="relative z-0 w-full h-screen flex justify-center items-center transform scale-100 origin-center">
+    <div className="relative w-full h-screen flex justify-center items-center transform scale-100 origin-center">
       <Canvas
         camera={{ position, fov }}
         gl={{ alpha: transparent }}
         onCreated={({ gl }) =>
           gl.setClearColor(new THREE.Color(0x000000), transparent ? 0 : 1)
-        }
-      >
+        }>
         <ambientLight intensity={Math.PI} />
         <Physics gravity={gravity} timeStep={1 / 60}>
           <Band />
@@ -93,7 +117,6 @@ interface BandProps {
 }
 
 function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
-  // Using "any" for refs since the exact types depend on Rapier's internals
   const band = useRef<any>(null);
   const fixed = useRef<any>(null);
   const j1 = useRef<any>(null);
@@ -115,7 +138,6 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
   };
 
   const { nodes, materials } = useGLTF(cardGLB) as any;
-  // FIX: Destructure the texture from the useTexture hook array result
   const texture = useTexture(lanyard);
   const [curve] = useState(
     () =>
@@ -215,24 +237,21 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
           position={[0.5, 0, 0]}
           ref={j1}
           {...segmentProps}
-          type={"dynamic" as RigidBodyProps["type"]}
-        >
+          type={"dynamic" as RigidBodyProps["type"]}>
           <BallCollider args={[0.1]} />
         </RigidBody>
         <RigidBody
           position={[1, 0, 0]}
           ref={j2}
           {...segmentProps}
-          type={"dynamic" as RigidBodyProps["type"]}
-        >
+          type={"dynamic" as RigidBodyProps["type"]}>
           <BallCollider args={[0.1]} />
         </RigidBody>
         <RigidBody
           position={[1.5, 0, 0]}
           ref={j3}
           {...segmentProps}
-          type={"dynamic" as RigidBodyProps["type"]}
-        >
+          type={"dynamic" as RigidBodyProps["type"]}>
           <BallCollider args={[0.1]} />
         </RigidBody>
         <RigidBody
@@ -243,8 +262,7 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
             dragged
               ? ("kinematicPosition" as RigidBodyProps["type"])
               : ("dynamic" as RigidBodyProps["type"])
-          }
-        >
+          }>
           <CuboidCollider args={[0.8, 1.125, 0.01]} />
           <group
             scale={2.25}
@@ -262,8 +280,7 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
                   .copy(e.point)
                   .sub(vec.copy(card.current.translation()))
               );
-            }}
-          >
+            }}>
             <mesh geometry={nodes.card.geometry}>
               <meshPhysicalMaterial
                 map={materials.base.map}
