@@ -1,4 +1,5 @@
 export const METADATA = {
+  title: "Portofolio Maulana",
   creator: "MAULANA",
   description: "Personal website, portfolio, frontend web developer",
   keyword: "maulana, MAULANA, personal website , programming tips",
