@@ -92,8 +92,7 @@ export default async function ProjectDetailPage({ params }: any) {
               <Link
                 href={project.link.srccode}
                 target="_blank"
-                className="inline-flex items-center space-x-2  hover:text-blue-700 transition-colors"
-              >
+                className="inline-flex items-center space-x-2  hover:text-blue-700 transition-colors">
                 <SiGithub className="h-5 w-5" />
                 <span>Source Code</span>
               </Link>
@@ -102,8 +101,7 @@ export default async function ProjectDetailPage({ params }: any) {
               <Link
                 href={project.link.website}
                 target="_blank"
-                className="inline-flex items-center space-x-2  hover:text-cyan-400 transition-colors"
-              >
+                className="inline-flex items-center space-x-2  hover:text-cyan-400 transition-colors">
                 <FiExternalLink className="h-5 w-5" />
                 <span>Website</span>
               </Link>

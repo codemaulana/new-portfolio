@@ -18,10 +18,23 @@ export const experience = [
   {
     title: "PT. Eka - Frontend Developer Intern",
     date: "December 2024 - April 2025",
-    description: `Actively contributed to the development lifecycle, from converting
-            Figma designs into clean Next.js/TypeScript code to debugging and
-            optimization. Collaborated closely with the team to develop and
-            maintain key features, while ensuring high code standards and a
-            responsive user experience.`,
+    description: `Bringing designs to life by expertly translating intricate Figma layouts into pixel-perfect, responsive, and highly functional components with Next.js and TypeScript.
+
+A key contributor to the development lifecycle, I actively partner with cross-functional teams to ensure that technical execution aligns seamlessly with the product vision.
+
+Dedicated to performance and stability, I systematically debug to pinpoint and eliminate issues, while continuously optimizing code for a faster and smoother application.
+
+Committed to excellence, I consistently uphold high coding standards and best practices to ensure the long-term quality and maintainability of the codebase.`,
+  },
+  {
+    title: "PT. Kaia - Frontend Developer Intern",
+    date: "Mei 2024 - August 2024",
+    description: `Transforming UI/UX visions into reality by meticulously translating Figma designs into clean, responsive, and fully functional components using Next.js and TypeScript.
+
+Actively shaping the product's future by collaborating closely with the team throughout the feature development lifecycle, ensuring technical implementation perfectly aligns with product goals.
+
+Driving application excellence through systematic debugging to identify and resolve issues, while proactively optimizing code to enhance performance and user experience.
+
+Championing code quality and maintainability by consistently applying high coding standards and best practices in every task undertaken.`,
   },
 ];
