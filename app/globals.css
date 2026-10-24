@@ -1,0 +1,193 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: hsl(43 27% 95%);
+  --foreground: hsl(40 3% 8%);
+  --surface: hsl(42 24% 92%);
+  --muted: hsl(40 16% 88%);
+  --muted-foreground: hsl(38 6% 36%);
+  --accent: hsl(16 60% 49%);
+  --accent-foreground: hsl(43 27% 97%);
+  --border: hsl(38 14% 83%);
+  --ring: hsl(16 60% 49%);
+  --radius: 0.375rem;
+}
+
+.dark {
+  --background: hsl(40 4% 8%);
+  --foreground: hsl(43 23% 93%);
+  --surface: hsl(40 4% 11%);
+  --muted: hsl(40 4% 16%);
+  --muted-foreground: hsl(38 10% 66%);
+  --accent: hsl(16 68% 56%);
+  --accent-foreground: hsl(40 4% 8%);
+  --border: hsl(40 4% 19%);
+  --ring: hsl(16 68% 56%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --background: hsl(40 4% 8%);
+    --foreground: hsl(43 23% 93%);
+    --surface: hsl(40 4% 11%);
+    --muted: hsl(40 4% 16%);
+    --muted-foreground: hsl(38 10% 66%);
+    --accent: hsl(16 68% 56%);
+    --accent-foreground: hsl(40 4% 8%);
+    --border: hsl(40 4% 19%);
+    --ring: hsl(16 68% 56%);
+  }
+}
+
+@theme inline {
+  --font-serif: var(--font-serif), Georgia, serif;
+  --font-sans: var(--font-sans), system-ui, sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+
+  --ease-atelier: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  /* Universal pointer cursor for interactive elements on desktop */
+  button,
+  [role="button"],
+  a[href],
+  select,
+  summary,
+  label[for],
+  input[type="submit"],
+  input[type="button"],
+  input[type="checkbox"],
+  input[type="radio"],
+  .cursor-pointer {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  [role="button"][aria-disabled="true"],
+  input:disabled {
+    cursor: not-allowed;
+  }
+}
+
+.container {
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+  max-width: 1360px;
+}
+
+.atelier-grid-pattern {
+  background-image: 
+    linear-gradient(to right, color-mix(in srgb, var(--border) 40%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--border) 40%, transparent) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-position: -1px -1px;
+}
+
+@keyframes marquee-left {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-right {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.animate-marquee-left {
+  display: flex;
+  width: max-content;
+  animation: marquee-left 32s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-right {
+  display: flex;
+  width: max-content;
+  animation: marquee-right 32s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-left:hover,
+.animate-marquee-right:hover {
+  animation-play-state: paused;
+}
+
+@keyframes page-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-page-enter {
+  animation: page-enter 220ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: opacity, transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+html[data-motion="off"] *,
+html[data-motion="off"] *::before,
+html[data-motion="off"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}

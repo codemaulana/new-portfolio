@@ -1,0 +1,165 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum TimelineType {
+  EXPERIENCE
+  EDUCATION
+}
+
+enum SkillCategory {
+  PRIMARY_STACK
+  FAMILIAR
+  TOOLS_DEVOPS
+}
+
+enum AnimationIntensity {
+  FULL
+  REDUCED
+  OFF
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model SiteSettings {
+  id                 String             @id @default("singleton")
+  ownerName          String             @default("Muhammad Nur Maulana")
+  roleTitle          String             @default("Full Stack Developer")
+  heroHeadline       String             @db.Text
+  heroSubheadline    String             @db.Text
+  heroAvatarUrl      String?            @db.Text
+  aboutShort         String             @db.Text
+  aboutFull          String             @db.Text
+  location           String             @default("Jakarta, Indonesia")
+  emailPublic        String
+  resumePdfUrl       String?
+  socialLinks        Json
+  seoDefaultTitle    String
+  seoDefaultDesc     String             @db.Text
+  seoOgImageUrl      String?
+  animationIntensity AnimationIntensity @default(FULL)
+  enable3DHero       Boolean            @default(true)
+  enableGameCorner   Boolean            @default(true)
+  updatedAt          DateTime           @updatedAt
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  tagline     String
+  problem     String   @db.Text
+  solution    String   @db.Text
+  stack       String[]
+  category    String   @default("Web App")
+  featured    Boolean  @default(false)
+  order       Int      @default(0)
+  published   Boolean  @default(true)
+  demoUrl     String?
+  repoUrl     String?
+  coverImage  String
+  gallery     String[]
+  results     String?  @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([featured, order])
+}
+
+model Post {
+  id          String    @id @default(cuid())
+  title       String
+  slug        String    @unique
+  excerpt     String    @db.Text
+  content     String    @db.Text
+  coverImage  String?
+  tags        String[]
+  published   Boolean   @default(false)
+  publishedAt DateTime?
+  readingTime Int       @default(3)
+  views       Int       @default(0)
+  seoTitle    String?
+  seoDesc     String?   @db.Text
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([published, publishedAt])
+}
+
+model Skill {
+  id        String        @id @default(cuid())
+  name      String
+  category  SkillCategory @default(PRIMARY_STACK)
+  iconName  String?
+  order     Int           @default(0)
+  highlight Boolean       @default(false)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([category, order])
+}
+
+model TimelineItem {
+  id           String       @id @default(cuid())
+  type         TimelineType @default(EXPERIENCE)
+  title        String
+  organization String
+  location     String?
+  periodStart  String
+  periodEnd    String?
+  current      Boolean      @default(false)
+  description  String       @db.Text
+  techStack    String[]
+  order        Int          @default(0)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  @@index([type, order])
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String?
+  message   String   @db.Text
+  read      Boolean  @default(false)
+  ipHash    String?
+  createdAt DateTime @default(now())
+
+  @@index([read, createdAt])
+}
+
+model Media {
+  id        String   @id @default(cuid())
+  filename  String
+  url       String
+  mimeType  String
+  size      Int
+  altText   String?
+  createdAt DateTime @default(now())
+}
+
+model ChatMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String?
+  avatarUrl String?
+  message   String   @db.Text
+  isOwner   Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
