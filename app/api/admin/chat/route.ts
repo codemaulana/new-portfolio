@@ -11,8 +11,9 @@ const replySchema = z.object({
 
 export const dynamic = "force-dynamic";
 
-export const GET = auth(async function GET(req) {
-  if (!req.auth?.user) {
+export async function GET(req: Request) {
+  const session = await auth();
+  if (!session?.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -25,10 +26,11 @@ export const GET = auth(async function GET(req) {
     console.error("Failed to fetch admin comments:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
-});
+}
 
-export const POST = auth(async function POST(req) {
-  if (!req.auth?.user) {
+export async function POST(req: Request) {
+  const session = await auth();
+  if (!session?.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -50,8 +52,8 @@ export const POST = auth(async function POST(req) {
 
     const reply = await prisma.chatMessage.create({
       data: {
-        name: "Muhammad Nur Maulana",
-        email: req.auth.user.email || "codemaulana@gmail.com",
+        name: session.user.name || "Muhammad Nur Maulana",
+        email: session.user.email || "codemaulana@gmail.com",
         avatarUrl: "/profile-avatar.png",
         message: finalContent,
         isOwner: true,
@@ -64,10 +66,11 @@ export const POST = auth(async function POST(req) {
     console.error("Failed to post admin reply:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
-});
+}
 
-export const DELETE = auth(async function DELETE(req) {
-  if (!req.auth?.user) {
+export async function DELETE(req: Request) {
+  const session = await auth();
+  if (!session?.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -85,4 +88,4 @@ export const DELETE = auth(async function DELETE(req) {
     console.error("Failed to delete comment:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
-});
+}

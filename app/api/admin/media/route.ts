@@ -3,9 +3,23 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
-export const POST = auth(async function POST(req) {
-  if (!req.auth?.user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+export async function POST(req: Request) {
+  const session = await auth();
+  if (!session?.user) {
+    return NextResponse.json(
+      { error: "Sesi admin tidak ditemukan. Silakan login kembali ke dashboard admin." },
+      { status: 401 }
+    );
+  }
+
+  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    return NextResponse.json(
+      {
+        error:
+          "Vercel Blob belum terhubung: BLOB_READ_WRITE_TOKEN belum ditambahkan di Environment Variables Vercel.",
+      },
+      { status: 500 }
+    );
   }
 
   try {
@@ -42,7 +56,7 @@ export const POST = auth(async function POST(req) {
       ? `/api/blob/${blob.pathname}`
       : blob.url;
 
-    // Save record to Neon Postgres
+    // Save record to database
     const media = await prisma.media.create({
       data: {
         filename: file.name,
@@ -62,11 +76,15 @@ export const POST = auth(async function POST(req) {
       { status: 500 }
     );
   }
-});
+}
 
-export const DELETE = auth(async function DELETE(req) {
-  if (!req.auth?.user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+export async function DELETE(req: Request) {
+  const session = await auth();
+  if (!session?.user) {
+    return NextResponse.json(
+      { error: "Sesi admin tidak ditemukan. Silakan login kembali ke dashboard admin." },
+      { status: 401 }
+    );
   }
 
   try {
@@ -112,4 +130,4 @@ export const DELETE = auth(async function DELETE(req) {
       { status: 500 }
     );
   }
-});
+}

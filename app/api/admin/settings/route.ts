@@ -18,8 +18,9 @@ const settingsUpdateSchema = z.object({
   socialLinks: z.record(z.string(), z.string()).optional(),
 });
 
-export const PUT = auth(async function PUT(req) {
-  if (!req.auth?.user) {
+export async function PUT(req: Request) {
+  const session = await auth();
+  if (!session?.user) {
     return NextResponse.json({ error: "Unauthorized access" }, { status: 401 });
   }
 
@@ -62,4 +63,4 @@ export const PUT = auth(async function PUT(req) {
       { status: 500 }
     );
   }
-});
+}

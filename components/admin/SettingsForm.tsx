@@ -80,6 +80,7 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
       const res = await fetch("/api/admin/media", {
         method: "POST",
         body,
+        credentials: "include",
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Upload failed");

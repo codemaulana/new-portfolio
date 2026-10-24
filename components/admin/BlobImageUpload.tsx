@@ -38,6 +38,7 @@ export function BlobImageUpload({
       const res = await fetch("/api/admin/media", {
         method: "POST",
         body: formData,
+        credentials: "include",
       });
 
       const data = await res.json();
